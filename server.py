@@ -23,6 +23,9 @@ def handle_upload():
     except ValueError:
         set_error_message('Repeat times must be a number.')
         redirect('/')
+    if repeat_number > 10:
+        set_error_message('Repeat times is too big, maximum allowed is 10.')
+        redirect('/')
     upload_file = request.files.get('upload_file')
     if not upload_file:
         set_error_message('You didn\'t set the file to upload.')
@@ -54,7 +57,7 @@ def get_error_message():
 
 
 def main():
-    run(host='localhost', port=8080, reload=True)
+    run(host='localhost', port=8005)
 
 if __name__ == '__main__':
     main()
