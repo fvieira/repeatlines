@@ -17,11 +17,6 @@ def pdf_to_text(filename):
     return text
 
 
-def clean_text(text):
-    text = text.replace('\r\n', '\n')
-    return text
-
-
 def repeat_text(text, n):
     text_blocks = re.split('\n\n\n+', text)
     return '\n\n\n'.join(repeat_text_block(tb, n) for tb in text_blocks)

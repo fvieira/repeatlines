@@ -36,8 +36,9 @@ def handle_upload():
         redirect('/')
 
     text = upload_file.file.read()
-    cleaned_text = clean_text(text)
-    repeated_text = repeat_text(cleaned_text, repeat_number)
+    text = text.replace('\r\n', '\n')
+    repeated_text = repeat_text(text, repeat_number)
+    repeated_text = repeated_text.replace('\n', '\r\n')
     response.content_type = 'text/plain'
     response.headers['Content-Disposition'] = 'attachment; filename="{0}_repeated{1}"'.format(name, ext)
     response.headers['Content-Length'] = str(len(repeated_text))
