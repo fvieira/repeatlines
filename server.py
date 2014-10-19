@@ -2,7 +2,7 @@ from bottle import route, run, template, view, request, response, redirect
 from StringIO import StringIO
 import os
 
-from utils import clean_text, repeat_text
+from utils import repeat_text
 
 error_message = None
 
