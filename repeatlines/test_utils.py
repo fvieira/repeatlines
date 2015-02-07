@@ -1,3 +1,4 @@
+# Run these tests with py.test
 from .utils import repeat_text
 
 
