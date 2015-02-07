@@ -125,3 +125,10 @@ But this should be another.
 But this should be another.
 This is e.g. also a i.e. single sentence!
 This is e.g. also a i.e. single sentence!'''
+
+
+def test_no_split_at_eg_and_ie():
+    result = repeat_text('''This is e.g. A single i.e. Sentence.''', 2)
+    assert result == '''\
+This is e.g. A single i.e. Sentence.
+This is e.g. A single i.e. Sentence.'''

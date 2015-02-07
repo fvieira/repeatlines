@@ -1,9 +1,11 @@
 import re
 import sys
+import uuid
 import PyPDF2
 
 # Default punctuation used to distinguish sentences
 DEFAULT_PUNCTUATION = '!.:;?'
+ABBREVIATIONS_TO_IGNORE = ['e.g.', 'i.e.']
 
 
 def pdf_to_text(filename):
@@ -24,8 +26,25 @@ def repeat_text(text, n, punctuation=DEFAULT_PUNCTUATION):
         return ''
     if n == 1:
         return text
+
+    # Replace abbreviations that we want to ignore with uuids
+    abbrevs_map = {abbrev: str(uuid.uuid4()) for abbrev in ABBREVIATIONS_TO_IGNORE}
+    text = apply_replaces(text, abbrevs_map)
+
     text_blocks = re.split('\n\n\n+', text)
-    return '\n\n\n'.join(repeat_text_block(tb, n, punctuation) for tb in text_blocks)
+    repeated_text = '\n\n\n'.join(repeat_text_block(tb, n, punctuation) for tb in text_blocks)
+
+    # Replace back each uuid with the respective abbreviation
+    reversed_abbrevs_map = {v: k for k, v in abbrevs_map.items()}
+    repeated_text = apply_replaces(repeated_text, reversed_abbrevs_map)
+
+    return repeated_text
+
+
+def apply_replaces(text, replaces_map):
+    for s1, s2 in replaces_map.items():
+        text = text.replace(s1, s2)
+    return text
 
 
 def repeat_text_block(text_block, n, punctuation=DEFAULT_PUNCTUATION):
