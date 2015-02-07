@@ -2,12 +2,12 @@ from bottle import route, run, template, view, request, response, redirect
 from StringIO import StringIO
 import os
 
-from utils import repeat_text
+from .utils import repeat_text
 
 error_message = None
 
 @route('/', method='GET')
-@view('upload')
+@view('repeatlines/upload')
 def index():
     error_message = get_error_message()
     if error_message:
