@@ -29,12 +29,17 @@ def repeat_text(text, n, punctuation=DEFAULT_PUNCTUATION):
 
 
 def repeat_text_block(text_block, n, punctuation=DEFAULT_PUNCTUATION):
-    sentences = split_sentences(text_block, punctuation)
-    repeated_sentences = []
-    for s in sentences:
-        for _ in range(n):
-            repeated_sentences.append(s)
+    splitted_sentences = split_sentences(text_block, punctuation)
+    repeated_sentences = repeat_list_elements(splitted_sentences, n)
     return '\n'.join(repeated_sentences)
+
+
+def repeat_list_elements(l, n):
+    repeated_l = []
+    for el in l:
+        for _ in range(n):
+            repeated_l.append(el)
+    return repeated_l
 
 
 def split_sentences(text, punctuation=DEFAULT_PUNCTUATION):
@@ -52,12 +57,20 @@ def split_sentences(text, punctuation=DEFAULT_PUNCTUATION):
         if c in punctuation:
             state = 'in_punctuation'
         elif state == 'in_punctuation':
-            sentence = text[last_sentence_end:i].strip()
-            sentences.append(sentence)
-            last_sentence_end = i
-            state = 'in_text'
-    if last_sentence_end < len(text):
-        sentence = text[last_sentence_end:len(text)].strip()
-        sentences.append(sentence)
+            if c.islower():
+                # Found a lowercase letter after punctuation, so we're still
+                # in the same sentence and should ignore the last punctuation found.
+                state = 'in_text'
+            elif c.isupper():
+                # Found a uppercase letter after punctuation,
+                # so the last sentence is over.
+                sentence = text[last_sentence_end:i].strip()
+                sentences.append(sentence)
+                last_sentence_end = i
+                state = 'in_text'
+            # If the character is not a letter we just keep going until we find one.
+    last_sentence = text[last_sentence_end:len(text)].strip()
+    if last_sentence:
+        sentences.append(last_sentence)
     return sentences
 

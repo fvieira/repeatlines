@@ -2,8 +2,8 @@ from .utils import repeat_text
 
 
 def test_repeat_once():
-    result = repeat_text('Nothing should happen. to! this string.', 1)
-    assert result == 'Nothing should happen. to! this string.'
+    result = repeat_text('Nothing should happen. To! This string.', 1)
+    assert result == 'Nothing should happen. To! This string.'
 
 
 def test_repeat_simple_sentence():
@@ -88,6 +88,7 @@ DDD;
 EEE?
 EEE?'''
 
+
 def test_parenthesis_no_longer_separate_sentences():
     result = repeat_text('This here (is a single) sentence.', 2)
     assert result == '''\
@@ -96,13 +97,30 @@ This here (is a single) sentence.'''
 
 
 def test_no_spaces_after_punctuation():
-    result = repeat_text('These.are.four.sentences.', 2)
+    result = repeat_text('These.Are.Four.Sentences.', 2)
     assert result == '''\
 These.
 These.
-are.
-are.
-four.
-four.
-sentences.
-sentences.'''
+Are.
+Are.
+Four.
+Four.
+Sentences.
+Sentences.'''
+
+
+def test_no_split_when_lowercase_after_punctuation():
+    result = repeat_text('''\
+This. is. a.
+single. sentence.
+But this should be another.
+This is e.g. also a i.e. single sentence!''', 2)
+    assert result == '''\
+This. is. a.
+single. sentence.
+This. is. a.
+single. sentence.
+But this should be another.
+But this should be another.
+This is e.g. also a i.e. single sentence!
+This is e.g. also a i.e. single sentence!'''
