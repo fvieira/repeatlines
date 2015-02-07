@@ -35,7 +35,7 @@ def handle_upload():
         set_error_message('File extension not allowed.')
         redirect('/')
 
-    text = upload_file.file.read().decode('utf-8')
+    text = upload_file.file.read().decode('utf-8', errors='ignore')
     text = text.replace('\r\n', '\n')
     repeated_text = repeat_text(text, repeat_number)
     repeated_text = repeated_text.replace('\n', '\r\n')
