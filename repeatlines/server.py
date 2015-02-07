@@ -1,5 +1,5 @@
 from bottle import route, run, template, view, request, response, redirect
-from StringIO import StringIO
+from io import BytesIO
 import os
 
 from .utils import repeat_text
@@ -35,14 +35,14 @@ def handle_upload():
         set_error_message('File extension not allowed.')
         redirect('/')
 
-    text = upload_file.file.read()
+    text = upload_file.file.read().decode('utf-8')
     text = text.replace('\r\n', '\n')
     repeated_text = repeat_text(text, repeat_number)
     repeated_text = repeated_text.replace('\n', '\r\n')
     response.content_type = 'text/plain'
     response.headers['Content-Disposition'] = 'attachment; filename="{0}_repeated{1}"'.format(name, ext)
     response.headers['Content-Length'] = str(len(repeated_text))
-    return StringIO(repeated_text)
+    return BytesIO(repeated_text.encode('utf-8'))
 
 def set_error_message(msg):
     global error_message
