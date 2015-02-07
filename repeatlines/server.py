@@ -6,6 +6,7 @@ from .utils import repeat_text
 
 error_message = None
 
+
 @route('/', method='GET')
 @view('repeatlines/upload')
 def index():
@@ -31,7 +32,7 @@ def handle_upload():
         set_error_message('You didn\'t set the file to upload.')
         redirect('/')
     name, ext = os.path.splitext(upload_file.filename)
-    if ext not in ('.txt','.text'):
+    if ext not in ['.txt', '.text']:
         set_error_message('File extension not allowed.')
         redirect('/')
 
@@ -43,6 +44,7 @@ def handle_upload():
     response.headers['Content-Disposition'] = 'attachment; filename="{0}_repeated{1}"'.format(name, ext)
     response.headers['Content-Length'] = str(len(repeated_text))
     return BytesIO(repeated_text.encode('utf-8'))
+
 
 def set_error_message(msg):
     global error_message
@@ -56,12 +58,8 @@ def get_error_message():
     return msg
 
 
-
 def main():
     run(host='localhost', port=8005)
 
 if __name__ == '__main__':
     main()
-
-
-
