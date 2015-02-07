@@ -75,19 +75,21 @@ And the last one.'''
 
 
 def test_default_punctuation():
-    result = repeat_text('AAA! BBB( CCC) DDD. EEE: FFF; GGG?', 2)
+    result = repeat_text('AAA! BBB. CCC: DDD; EEE?', 2)
     assert result == '''\
 AAA!
 AAA!
-BBB(
-BBB(
-CCC)
-CCC)
-DDD.
-DDD.
-EEE:
-EEE:
-FFF;
-FFF;
-GGG?
-GGG?'''
+BBB.
+BBB.
+CCC:
+CCC:
+DDD;
+DDD;
+EEE?
+EEE?'''
+
+def test_parenthesis_no_longer_separate_sentences():
+    result = repeat_text('This here (is a single) sentence.', 2)
+    assert result == '''\
+This here (is a single) sentence.
+This here (is a single) sentence.'''

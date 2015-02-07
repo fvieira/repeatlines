@@ -3,7 +3,7 @@ import sys
 import PyPDF2
 
 # Default punctuation used to distinguish sentences
-DEFAULT_PUNCTUATION = '!().:;?'
+DEFAULT_PUNCTUATION = '!.:;?'
 
 
 def pdf_to_text(filename):
@@ -43,7 +43,7 @@ def split_sentences(text, punctuation=DEFAULT_PUNCTUATION):
     If multiple punctuation characters appear together they are taken as one.
     Leading and trailing spaces are stripped from each sentence.
     Ex:
-    split_sentences('Foo... Bar?! Hello') == ['Foo...', 'Bar?!', 'Hello']
+    split_sentences('Foo... Bar?! Hello.') == ['Foo...', 'Bar?!', 'Hello']
     """
     sentences = []
     last_sentence_end = 0
