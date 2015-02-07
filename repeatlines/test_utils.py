@@ -93,3 +93,16 @@ def test_parenthesis_no_longer_separate_sentences():
     assert result == '''\
 This here (is a single) sentence.
 This here (is a single) sentence.'''
+
+
+def test_no_spaces_after_punctuation():
+    result = repeat_text('These.are.four.sentences.', 2)
+    assert result == '''\
+These.
+These.
+are.
+are.
+four.
+four.
+sentences.
+sentences.'''

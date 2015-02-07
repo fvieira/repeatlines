@@ -52,9 +52,9 @@ def split_sentences(text, punctuation=DEFAULT_PUNCTUATION):
         if c in punctuation:
             state = 'in_punctuation'
         elif state == 'in_punctuation':
-            sentence = text[last_sentence_end:i + 1].strip()
+            sentence = text[last_sentence_end:i].strip()
             sentences.append(sentence)
-            last_sentence_end = i + 1
+            last_sentence_end = i
             state = 'in_text'
     if last_sentence_end < len(text):
         sentence = text[last_sentence_end:len(text)].strip()
